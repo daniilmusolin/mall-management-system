@@ -1,0 +1,390 @@
+﻿<Window x:Class="MallClient.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MallClient — Торговый Центр"
+        Height="760" 
+        Width="1240"
+        MinHeight="620" 
+        MinWidth="1000"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
+        Loaded="MainWindow_OnLoaded"
+        Closing="MainWindow_OnClosing">
+
+    <Grid Margin="24">
+        <Border Background="{StaticResource CardBrush}" 
+                CornerRadius="16">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="24" 
+                                  ShadowDepth="4" 
+                                  Opacity="0.18" 
+                                  Color="#0F172A"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Title bar -->
+                <Border Grid.Row="0" 
+                        Background="#F1F5F9" 
+                        CornerRadius="16,16,0,0" 
+                        BorderBrush="{StaticResource BorderBrush}" 
+                        BorderThickness="0,0,0,1" 
+                        MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid Margin="24,12,16,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Торговый центр" 
+                                       FontSize="11" 
+                                       Foreground="{StaticResource TextSecondaryBrush}" 
+                                       Margin="0,2,0,0"/>
+                        </StackPanel>
+
+                        <Button Grid.Column="1" 
+                                Width="32" 
+                                Height="32" 
+                                Background="#E2E8F0" 
+                                BorderThickness="0" 
+                                Foreground="{StaticResource TextSecondaryBrush}" 
+                                FontSize="14" 
+                                Cursor="Hand" 
+                                Click="CloseButton_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#CBD5E1"/>
+                                            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <TextBlock Text="✕" />
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Content -->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Sidebar -->
+                    <Border Grid.Column="0" 
+                            Background="{StaticResource SidebarBrush}" 
+                            CornerRadius="0,0,0,16">
+                        <Grid Margin="20,8,20,20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="0" 
+                                    Background="{StaticResource SidebarHoverBrush}" 
+                                    CornerRadius="12" 
+                                    Padding="14,12" 
+                                    Margin="0,0,0,20">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding UserName}" 
+                                               Foreground="White" 
+                                               FontSize="14" 
+                                               FontWeight="SemiBold" 
+                                               TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{Binding UserRole}" 
+                                               Foreground="{StaticResource AccentBrush}" 
+                                               FontSize="11" 
+                                               FontWeight="SemiBold" 
+                                               Margin="0,4,0,0"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Button Grid.Row="2" 
+                                    Content="Выйти" 
+                                    Command="{Binding LogoutCommand}" 
+                                    Style="{StaticResource LogoutButton}"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Main Content Area -->
+                    <Grid Grid.Column="1" Margin="28,8,28,24">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                            <TextBlock Text="Панель управления" Style="{StaticResource SectionTitle}"/>
+                            <TextBlock Text="Управление помещениями, арендаторами и договорами" 
+                                       FontSize="13" 
+                                       Foreground="{StaticResource TextSecondaryBrush}" 
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <Border Grid.Row="1" 
+                                Background="#FEF2F2" 
+                                BorderBrush="#FECACA" 
+                                BorderThickness="1" 
+                                CornerRadius="8" 
+                                Padding="14,10" 
+                                Margin="0,0,0,12"
+                                Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}">
+                            <TextBlock Text="{Binding ErrorMessage}" 
+                                       Foreground="{StaticResource DangerBrush}" 
+                                       FontSize="13" 
+                                       TextWrapping="Wrap"/>
+                        </Border>
+
+                        <Border Grid.Row="2" 
+                                Background="White" 
+                                CornerRadius="12" 
+                                Padding="6" 
+                                BorderBrush="{StaticResource BorderBrush}" 
+                                BorderThickness="1" 
+                                Margin="0,0,0,16">
+                            <WrapPanel>
+                                <RadioButton x:Name="TabPremises" Content="Помещения" GroupName="MainTabs" Style="{StaticResource TabButton}" 
+                                             Visibility="{Binding CanViewPremises, Converter={StaticResource BooleanToVisibilityConverter}}" Checked="Tab_Checked"/>
+                                <RadioButton x:Name="TabTenants" Content="Арендаторы" GroupName="MainTabs" Style="{StaticResource TabButton}" 
+                                             Visibility="{Binding CanViewTenants, Converter={StaticResource BooleanToVisibilityConverter}}" Checked="Tab_Checked"/>
+                                <RadioButton x:Name="TabContracts" Content="Договоры" GroupName="MainTabs" Style="{StaticResource TabButton}" 
+                                             Visibility="{Binding CanViewContracts, Converter={StaticResource BooleanToVisibilityConverter}}" Checked="Tab_Checked"/>
+                                <RadioButton x:Name="TabPayments" Content="Платежи" GroupName="MainTabs" Style="{StaticResource TabButton}" 
+                                             Visibility="{Binding CanViewPayments, Converter={StaticResource BooleanToVisibilityConverter}}" Checked="Tab_Checked"/>
+                                <RadioButton x:Name="TabRequests" Content="Заявки" GroupName="MainTabs" Style="{StaticResource TabButton}" 
+                                             Visibility="{Binding CanViewRequests, Converter={StaticResource BooleanToVisibilityConverter}}" Checked="Tab_Checked"/>
+                                <RadioButton x:Name="TabUsers" Content="Пользователи" GroupName="MainTabs" Style="{StaticResource TabButton}" 
+                                             Visibility="{Binding CanViewUsers, Converter={StaticResource BooleanToVisibilityConverter}}" Checked="Tab_Checked"/>
+                            </WrapPanel>
+                        </Border>
+
+                        <Border Grid.Row="3" Style="{StaticResource CardBorder}" Padding="20">
+                            <Grid>
+                                <!-- Premises -->
+                                <Grid x:Name="PanelPremises" Visibility="Visible">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Button Grid.Row="0" Content="+ Добавить помещение" Click="AddPremise_Click" Style="{StaticResource PrimaryButton}" 
+                                            HorizontalAlignment="Left" Margin="0,0,0,16" 
+                                            Visibility="{Binding CanCreatePremise, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                    <Border Grid.Row="1" CornerRadius="8" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Background="White">
+                                        <DataGrid x:Name="PremisesGrid" ItemsSource="{Binding Premises.Items}" Style="{StaticResource ModernDataGrid}" MouseDoubleClick="PremisesGrid_MouseDoubleClick">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
+                                                <DataGridTextColumn Header="Номер" Binding="{Binding RoomNumber}" Width="*"/>
+                                                <DataGridTextColumn Header="Этаж" Binding="{Binding Floor}" Width="80"/>
+                                                <DataGridTextColumn Header="Площадь" Binding="{Binding Area}" Width="100"/>
+                                                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="130"/>
+                                                <DataGridTextColumn Header="Зона" Binding="{Binding Zone}" Width="120"/>
+                                                <DataGridTextColumn Header="Статус" Binding="{Binding Status, Converter={StaticResource StatusToRussianConverter}}" Width="130"/>
+                                                <DataGridTemplateColumn Header="" Width="120">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button Content="Удалить" Style="{StaticResource DangerButton}" 
+                                                                    Visibility="{Binding DataContext.CanDeletePremise, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                                    Click="DeletePremise_Click" Tag="{Binding Id}"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Tenants -->
+                                <Grid x:Name="PanelTenants" Visibility="Collapsed">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Button Grid.Row="0" Content="+ Добавить арендатора" Click="AddTenant_Click" Style="{StaticResource PrimaryButton}" 
+                                            HorizontalAlignment="Left" Margin="0,0,0,16" 
+                                            Visibility="{Binding CanCreateTenant, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                    <Border Grid.Row="1" CornerRadius="8" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Background="White">
+                                        <DataGrid x:Name="TenantsGrid" ItemsSource="{Binding Tenants.Items}" Style="{StaticResource ModernDataGrid}" MouseDoubleClick="TenantsGrid_MouseDoubleClick">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
+                                                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
+                                                <DataGridTextColumn Header="ИНН" Binding="{Binding Inn}" Width="120"/>
+                                                <DataGridTextColumn Header="Юр. адрес" Binding="{Binding LegalAddress}" Width="*"/>
+                                                <DataGridTextColumn Header="Телефон" Binding="{Binding ContactPhone}" Width="140"/>
+                                                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+                                                <DataGridTemplateColumn Header="" Width="120">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button Content="Удалить" Style="{StaticResource DangerButton}" 
+                                                                    Visibility="{Binding DataContext.CanDeleteTenant, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                                    Click="DeleteTenant_Click" Tag="{Binding Id}"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Contracts -->
+                                <Grid x:Name="PanelContracts" Visibility="Collapsed">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Button Grid.Row="0" Content="+ Добавить договор" Click="AddContract_Click" Style="{StaticResource PrimaryButton}" 
+                                            HorizontalAlignment="Left" Margin="0,0,0,16" 
+                                            Visibility="{Binding CanCreateContract, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                    <Border Grid.Row="1" CornerRadius="8" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Background="White">
+                                        <DataGrid x:Name="ContractsGrid" ItemsSource="{Binding Contracts.Items}" Style="{StaticResource ModernDataGrid}" MouseDoubleClick="ContractsGrid_MouseDoubleClick">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
+                                                <DataGridTextColumn Header="Помещение" Binding="{Binding PremiseId}" Width="100"/>
+                                                <DataGridTextColumn Header="Арендатор" Binding="{Binding TenantId}" Width="100"/>
+                                                <DataGridTextColumn Header="Начало" Binding="{Binding StartDate, StringFormat=dd.MM.yyyy}" Width="100"/>
+                                                <DataGridTextColumn Header="Окончание" Binding="{Binding EndDate, StringFormat=dd.MM.yyyy}" Width="100"/>
+                                                <DataGridTextColumn Header="Ставка (м²)" Binding="{Binding RatePerSqm, StringFormat={}{0:N2} ₽}" Width="120"/>
+                                                <DataGridTextColumn Header="Залог" Binding="{Binding DepositAmount, StringFormat={}{0:N2} ₽}" Width="120"/>
+                                                <DataGridTextColumn Header="Статус" Binding="{Binding Status, Converter={StaticResource StatusToRussianConverter}}" Width="*"/>
+                                                <DataGridTemplateColumn Header="" Width="120">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button Content="Удалить" Style="{StaticResource DangerButton}" 
+                                                                    Visibility="{Binding DataContext.CanDeleteContract, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                                    Click="DeleteContract_Click" Tag="{Binding Id}"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Payments -->
+                                <Grid x:Name="PanelPayments" Visibility="Collapsed">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Button Grid.Row="0" Content="+ Добавить платеж" Click="AddPayment_Click" Style="{StaticResource PrimaryButton}" 
+                                            HorizontalAlignment="Left" Margin="0,0,0,16" 
+                                            Visibility="{Binding CanCreatePayment, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                    <Border Grid.Row="1" CornerRadius="8" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Background="White">
+                                        <DataGrid x:Name="PaymentsGrid" ItemsSource="{Binding Payments.Items}" Style="{StaticResource ModernDataGrid}" MouseDoubleClick="PaymentsGrid_MouseDoubleClick">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
+                                                <DataGridTextColumn Header="Договор" Binding="{Binding ContractId}" Width="100"/>
+                                                <DataGridTextColumn Header="Сумма" Binding="{Binding Amount, StringFormat={}{0:N2} ₽}" Width="120"/>
+                                                <DataGridTextColumn Header="Дата" Binding="{Binding PaymentDate, StringFormat=dd.MM.yyyy}" Width="100"/>
+                                                <DataGridTextColumn Header="Тип" Binding="{Binding PaymentType}" Width="120"/>
+                                                <DataGridTextColumn Header="Номер док." Binding="{Binding ReferenceNumber}" Width="120"/>
+                                                <DataGridTextColumn Header="Статус" Binding="{Binding Status, Converter={StaticResource StatusToRussianConverter}}" Width="*"/>
+                                                <DataGridTemplateColumn Header="" Width="120">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button Content="Удалить" Style="{StaticResource DangerButton}" 
+                                                                    Visibility="{Binding DataContext.CanDeletePayment, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                                    Click="DeletePayment_Click" Tag="{Binding Id}"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Requests -->
+                                <Grid x:Name="PanelRequests" Visibility="Collapsed">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Button Grid.Row="0" Content="+ Добавить заявку" Click="AddRequest_Click" Style="{StaticResource PrimaryButton}" 
+                                            HorizontalAlignment="Left" Margin="0,0,0,16" 
+                                            Visibility="{Binding CanCreateRequest, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                    <Border Grid.Row="1" CornerRadius="8" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Background="White">
+                                        <DataGrid x:Name="RequestsGrid" ItemsSource="{Binding Requests.Items}" Style="{StaticResource ModernDataGrid}" MouseDoubleClick="RequestsGrid_MouseDoubleClick">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
+                                                <DataGridTextColumn Header="Помещение" Binding="{Binding PremiseId}" Width="110"/>
+                                                <DataGridTextColumn Header="Тип" Binding="{Binding RequestType}" Width="120"/>
+                                                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*"/>
+                                                <DataGridTextColumn Header="Приоритет" Binding="{Binding Priority}" Width="100"/>
+                                                <DataGridTextColumn Header="Статус" Binding="{Binding Status, Converter={StaticResource StatusToRussianConverter}}" Width="130"/>
+                                                <DataGridTextColumn Header="Исполн." Binding="{Binding AssignedTo}" Width="100"/>
+                                                <DataGridTextColumn Header="Создана" Binding="{Binding CreatedDate}" Width="100"/>
+                                                <DataGridTemplateColumn Header="" Width="120">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button Content="Удалить" Style="{StaticResource DangerButton}" 
+                                                                    Visibility="{Binding DataContext.CanDeleteRequest, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                                    Click="DeleteRequest_Click" Tag="{Binding Id}"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Users -->
+                                <Grid x:Name="PanelUsers" Visibility="Collapsed">
+                                    <Border CornerRadius="8" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Background="White">
+                                        <DataGrid x:Name="UsersGrid" ItemsSource="{Binding Users.Items}" Style="{StaticResource ModernDataGrid}" MouseDoubleClick="UsersGrid_MouseDoubleClick">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
+                                                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+                                                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"/>
+                                                <DataGridTextColumn Header="Роль" Binding="{Binding Role, Converter={StaticResource RoleToRussianConverter}}" Width="150"/>
+                                                <DataGridTemplateColumn Header="" Width="120">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button Content="Удалить" Style="{StaticResource DangerButton}" 
+                                                                    Visibility="{Binding DataContext.CanDeleteUser, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                                    Click="DeleteUser_Click" Tag="{Binding Id}"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

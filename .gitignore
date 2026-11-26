@@ -1,0 +1,52 @@
+# ==========================================
+# ОБЩИЕ ФАЙЛЫ И ОКРУЖЕНИЕ
+# ==========================================
+.env
+.env.local
+*.log
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# BACKEND (Go) - папка mall-api
+# ==========================================
+# Бинарники
+mall-api/main
+mall-api/main.exe
+mall-api/*.exe
+mall-api/*.test
+mall-api/*.out
+
+# Временные файлы Go
+*.tmp
+*.bak
+
+# ==========================================
+# FRONTEND (C# / .NET) - папка MallClient
+# ==========================================
+# Скомпилированные файлы (бинарники)
+MallClient/[Bb]in/
+MallClient/[Oo]bj/
+MallClient/**/[Bb]in/
+MallClient/**/[Oo]bj/
+
+# Файлы Visual Studio
+.vs/
+MallClient/.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+MallClient/**/*.user
+
+# Папка с NuGet пакетами (если вдруг появится)
+packages/
+*.nupkg
+
+# Файлы Rider / ReSharper
+.idea/
+_ReSharper*/
+*.DotSettings.user
+
+# Локальные настройки (если там есть секреты)
+MallClient/appsettings.Development.json

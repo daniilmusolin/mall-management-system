@@ -33,15 +33,15 @@
 </p>
 
 <p align="center">
-  <img width="800" alt="Главное окно - Помещения" src="https://github.com/user-attachments/assets/f8191eff-9634-4a5c-bf16-0019923abb60" />
+  <img width="800" alt="Главное окно - Помещения" src="https://github.com/user-attachments/assets/19e5a2b1-0c41-4931-b2e3-e13e20590784" />
 </p>
 
 <p align="center">
-  <img width="800" alt="Валидация при добавлении арендатора" src="https://github.com/user-attachments/assets/5cb9ef58-194f-453f-9b31-a671abff1147" />
+  <img width="800" alt="Валидация при добавлении арендатора" src="https://github.com/user-attachments/assets/e9970a01-fedd-4a29-a55c-62ca4ac940db" />
 </p>
 
 <p align="center">
-  <img width="800" alt="Подтверждение удаления пользователя" src="https://github.com/user-attachments/assets/28331a67-eb2d-4684-a958-a4585e44fc4a" />
+  <img width="800" alt="Подтверждение удаления пользователя" src="https://github.com/user-attachments/assets/4963d2fc-08b1-43db-83f2-27aa8a668448" />
 </p>
 
 ## Структура проекта

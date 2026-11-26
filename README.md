@@ -29,7 +29,7 @@
 ## Скриншоты
 
 <p align="center">
-  <img width="350" alt="Окно авторизации" src="https://github.com/user-attachments/assets/c15bf973-2ae4-4801-8576-b813e1292626" />
+  <img width="350" alt="Окно авторизации" src="https://github.com/user-attachments/assets/88f131bd-33f7-447d-8656-7636793c25ea" />
 </p>
 
 <p align="center">
